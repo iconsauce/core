@@ -1,0 +1,307 @@
+{
+  "env": {
+    "es2021": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended"],
+
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all"
+      }
+    ],
+    "no-var": "error",
+    "no-new-object": "error",
+    "no-new-wrappers": "error",
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "no-array-constructor": "error",
+    "object-shorthand": [
+      "error",
+      "properties"
+    ],
+    "prefer-destructuring": [
+      "warn",
+      {
+        "VariableDeclarator": {
+          "array": true,
+          "object": true
+        },
+        "AssignmentExpression": {
+          "array": false,
+          "object": true
+        }
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "prefer-template": "off",
+    "template-curly-spacing": [
+      "warn",
+      "never"
+    ],
+    "prefer-rest-params": "error",
+    "wrap-iife": [
+      "error",
+      "outside"
+    ],
+    "no-loop-func": "error",
+    "no-new-func": "error",
+    "func-style": [
+      "error",
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
+    "space-before-function-paren": [
+      "error",
+      "always"
+    ],
+    "space-before-blocks": [
+      "error",
+      {
+        "functions": "always"
+      }
+    ],
+    "no-param-reassign": [
+      "warn",
+      {
+        "props": false
+      }
+    ],
+    "prefer-spread": "error",
+    "prefer-arrow-callback": [
+      "error",
+      {
+        "allowNamedFunctions": true
+      }
+    ],
+    "arrow-spacing": "error",
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "no-confusing-arrow": [
+      "error",
+      {
+        "allowParens": true
+      }
+    ],
+    "no-iterator": "error",
+    "no-restricted-syntax": [
+      "error",
+      "WithStatement",
+      "BinaryExpression[operator='in']",
+      {
+        "selector": "CallExpression[callee.name='setTimeout'][arguments.length!=2]",
+        "message": "setTimeout must always be invoked with two arguments."
+      }
+    ],
+    "generator-star-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": false
+      }
+    ],
+    "dot-notation": "error",
+    "no-undef": [
+      "error",
+      {
+        "typeof": false
+      }
+    ],
+    "no-multi-assign": "error",
+    "no-multi-spaces": "warn",
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "max-len": [
+      "off",
+      {
+        "code": 80,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true
+      }
+    ],
+    "eqeqeq": "warn",
+    "no-case-declarations": "warn",
+    "no-nested-ternary": "error",
+    "no-unneeded-ternary": "error",
+    "no-mixed-operators": [
+      "error",
+      {
+        "groups": [
+          [
+            "&",
+            "|",
+            "^",
+            "~",
+            "<<",
+            ">>",
+            ">>>"
+          ],
+          [
+            "&&",
+            "||"
+          ],
+          [
+            "==",
+            "!=",
+            "===",
+            "!==",
+            ">",
+            ">=",
+            "<",
+            "<="
+          ]
+        ],
+        "allowSamePrecedence": true
+      }
+    ],
+    "nonblock-statement-body-position": [
+      "error",
+      "beside"
+    ],
+    "no-else-return": "error",
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        "block": {
+          "balanced": true
+        }
+      }
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "semi-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "space-infix-ops": "error",
+    "camelcase": "off",
+    "keyword-spacing": "error",
+    "no-fallthrough": "off",
+    "curly": "off",
+    "semi": [
+      "error",
+      "never"
+    ],
+    "no-empty": "off",
+    "no-alert": "warn",
+    "no-class-assign": "off",
+    "no-useless-escape": "off",
+    "no-bitwise": "off",
+    "no-eq-null": "off",
+    "no-debugger": "error",
+    "guard-for-in": "warn",
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ]
+  },
+
+  "overrides": [
+    // Match TypeScript Files
+    // =================================
+    {
+      "files": ["**/*.{ts,tsx}"],
+
+      // Global ESLint Settings
+      // =================================
+      "env": {
+        "jest": true,
+        "node": true
+      },
+      "settings": {
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+          "typescript": {
+            "project": "./tsconfig.json"
+          }
+        }
+      },
+
+      // Parser Settings
+      // =================================
+      // allow ESLint to understand TypeScript syntax
+      // https://github.com/iamturns/eslint-config-airbnb-typescript/blob/master/lib/shared.js#L10
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        // Lint with Type Information
+        // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/TYPED_LINTING.md
+        "project": "./tsconfig.json"
+      },
+
+      // Plugins
+      // =================================
+      "plugins": ["@typescript-eslint"],
+
+      // Extend Other Configs
+      // =================================
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "vars": "all",
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        // to enforce using type for object type definitions, can be type or interface
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+        // temp allowing during TS migration
+        "@typescript-eslint/ban-ts-comment": [
+          "error",
+          {
+            "ts-ignore": "allow-with-description",
+            "minimumDescriptionLength": 4
+          }
+        ]
+      }
+    }
+  ]
+}

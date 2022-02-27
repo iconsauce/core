@@ -1,0 +1,73 @@
+{
+  "name": "@iconsauce/config",
+  "version": "0.0.1",
+  "description": "Includes only the SVG icons matched in your code and generates a CSS icon font set.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run clean && tsc --declaration && npm run lib",
+    "dev": "tsc --watch",
+    "clean": "rm -rf build || true && rm -rf lib || true",
+    "lib": "cp -r ./build/src ./lib",
+    "lint": "eslint --ignore-path .eslintignore",
+    "test": "npm run build && jest"
+  },
+  "bin": {
+    "iconsauce": "lib/cli.js"
+  },
+  "files": [
+    "lib",
+    "src/interface"
+  ],
+  "dependencies": {
+    "@iconsauce/plugin": "^0.0.1",
+    "@iconsauce/mgg-icons": "^1.0.5",
+    "@iconsauce/material-design-icons-updated": "^1.0.5",
+    "@iconsauce/mdi-svg": "^1.0.5",
+    "chalk": "4.0.0",
+    "lilconfig": "2.0.4",
+    "fast-glob": "^3.2.11"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/debug": "^4.1.5",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^15.6.1",
+    "@types/react": "17.0.38",
+    "@types/svg2ttf": "^5.0.1",
+    "@types/svgicons2svgfont": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "eslint": "^8.7.0",
+    "jest": "^27.5.0",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.4.3"
+  },
+  "keywords": [
+    "build",
+    "icon",
+    "svg",
+    "incremental",
+    "jit"
+  ],
+  "author": {
+    "email": "vittorio.vittori@maggioli.it",
+    "name": "Vittorio Vittori",
+    "role": "Design System Architect",
+    "url": "https://github.com/vitto"
+  },
+  "contributors": [
+    {
+      "name": "Andrea Pruccoli",
+      "email": "andrea.pruccoli@maggioli.it",
+      "role": "Software Engineer"
+    },
+    {
+      "name": "Nicola Tamburini",
+      "email": "nicola.tamburini@maggioli.it",
+      "role": "Software Engineer"
+    }
+  ],
+  "license": "ISC"
+}
