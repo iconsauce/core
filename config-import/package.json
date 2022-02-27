@@ -1,6 +1,6 @@
 {
   "name": "@iconsauce/config",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Includes only the SVG icons matched in your code and generates a CSS icon font set.",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "files": [
     "lib",
-    "src/interface"
+    "src"
   ],
   "dependencies": {
     "@iconsauce/plugin": "^0.0.1",
