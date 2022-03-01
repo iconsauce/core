@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import { IconsaucePlugin } from '@iconsauce/plugin'
-import { PathLike } from 'fs'
 import { lilconfigSync } from 'lilconfig'
 import { Config } from './interface/config'
 import { DEFAULT_CONFIG_PATH, PROJECT_NAME, PROJECT_PATH } from './utils'
