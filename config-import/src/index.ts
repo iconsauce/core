@@ -23,21 +23,19 @@ const defaultConfig: Config = {
 
 export class IconsauceConfig implements Config {
   content: string[]
-  dictionary?: PathLike
   fontFamily: string
   fontSize: string
   plugin: IconsaucePlugin[]
   skipWarnings: boolean
   verbose: boolean
 
-  constructor (configPath?: string, dictionary?: PathLike, skipWarnings?: boolean, verbose?: boolean) {
+  constructor (configPath?: string, skipWarnings?: boolean, verbose?: boolean) {
     const config = loadConfig(configPath)
 
     if (config.content.length === 0) {
       throw new Error(chalk.red('Missing required "content" property'))
     }
     this.content = config.content
-    this.dictionary = dictionary ?? undefined
     this.fontFamily = defaultConfig.fontFamily
     this.fontSize = config.fontSize ?? defaultConfig.fontSize
     this.plugin = config.plugin ?? defaultConfig.plugin
