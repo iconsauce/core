@@ -4,6 +4,7 @@ import mdiSvgPlugin from '@iconsauce/mdi-svg'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
 
 export const configTest: Config = {
+  center: false,
   content: [
     './src/**/*.{tsx,ts}',
   ],
