@@ -8,6 +8,7 @@ import materialDesignIconsUpdatedPlugin from '@iconsauce/material-design-icons-u
 import mdiSvgPlugin from '@iconsauce/mdi-svg'
 
 const defaultConfig: Config = {
+  center: false,
   content: [],
   fontFamily: 'iconsauce',
   fontSize: '24px',
@@ -21,6 +22,7 @@ const defaultConfig: Config = {
 }
 
 export class IconsauceConfig implements Config {
+  center: boolean
   content: string[]
   fontFamily: string
   fontSize: string
@@ -34,6 +36,7 @@ export class IconsauceConfig implements Config {
     if (config.content.length === 0) {
       throw new Error(chalk.red('Missing required "content" property'))
     }
+    this.center = config.center ?? defaultConfig.center
     this.content = config.content
     this.fontFamily = defaultConfig.fontFamily
     this.fontSize = config.fontSize ?? defaultConfig.fontSize
