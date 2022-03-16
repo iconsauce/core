@@ -1,14 +1,15 @@
 {
   "name": "@iconsauce/config",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Includes only the SVG icons matched in your code and generates a CSS icon font set.",
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && tsc --declaration && npm run lib",
-    "dev": "tsc --watch",
     "clean": "rm -rf build || true && rm -rf lib || true",
+    "dev": "tsc --watch",
     "lib": "cp -r ./build/src ./lib",
     "lint": "eslint --ignore-path .eslintignore",
+    "prepublishOnly": "npm run test",
     "test": "npm run build && jest"
   },
   "bin": {
@@ -21,7 +22,7 @@
   "dependencies": {
     "@iconsauce/plugin": "^0.0.1",
     "@iconsauce/mgg-icons": "^1.0.5",
-    "@iconsauce/material-design-icons-updated": "^1.0.5",
+    "@iconsauce/material-icons": "^1.0.0",
     "@iconsauce/mdi-svg": "^1.0.5",
     "chalk": "4.0.0",
     "lilconfig": "2.0.4",

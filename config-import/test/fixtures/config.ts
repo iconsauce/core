@@ -1,5 +1,5 @@
 import { Config } from '../../src/interface/config'
-import materialDesignIconsUpdatedPlugin from '@iconsauce/material-design-icons-updated'
+import materialIconsPlugin from '@iconsauce/material-icons'
 import mdiSvgPlugin from '@iconsauce/mdi-svg'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
 
@@ -11,7 +11,7 @@ export const configTest: Config = {
   fontSize : '24px',
   fontFamily : 'iconsauce',
   plugin: [
-    materialDesignIconsUpdatedPlugin,
+    materialIconsPlugin,
     mdiSvgPlugin,
     maggioliSvgIconsPlugin,
   ],

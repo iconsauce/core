@@ -4,7 +4,7 @@ import { lilconfigSync } from 'lilconfig'
 import { Config } from './interface/config'
 import { DEFAULT_CONFIG_PATH, PROJECT_NAME, PROJECT_PATH } from './utils'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
-import materialDesignIconsUpdatedPlugin from '@iconsauce/material-design-icons-updated'
+import materialIconsPlugin from '@iconsauce/material-icons'
 import mdiSvgPlugin from '@iconsauce/mdi-svg'
 
 const defaultConfig: Config = {
@@ -13,7 +13,7 @@ const defaultConfig: Config = {
   fontFamily: 'iconsauce',
   fontSize: '24px',
   plugin: [
-    materialDesignIconsUpdatedPlugin,
+    materialIconsPlugin,
     mdiSvgPlugin,
     maggioliSvgIconsPlugin,
   ],
