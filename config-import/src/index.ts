@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { IconsaucePlugin } from '@iconsauce/plugin'
 import { lilconfigSync } from 'lilconfig'
 import { Config } from './interface/config'
-import { DEFAULT_CONFIG_PATH, PROJECT_NAME, PROJECT_PATH } from './utils'
+import { DEFAULT_CONFIG_PATH, ISUNIX, PROJECT_NAME, PROJECT_PATH } from './utils'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
 import materialIconsPlugin from '@iconsauce/material-icons'
 import mdiSvgPlugin from '@iconsauce/mdi-svg'
@@ -31,7 +31,7 @@ export class IconsauceConfig implements Config {
   verbose: boolean
 
   constructor (configPath?: string, skipWarnings?: boolean, verbose?: boolean) {
-    const config = loadConfig(configPath)
+    const config = fixConfigCompatibilityOS(loadConfig(configPath))
 
     if (config.content.length === 0) {
       throw new Error(chalk.red('Missing required "content" property'))
@@ -56,4 +56,25 @@ const loadConfig = (configPath?: string) : Config => {
   } catch (error) {
     throw new Error(chalk.red(error))
   }
+}
+
+const fixConfigCompatibilityOS = (config: Config): Config => {
+  if (ISUNIX) {
+    config.content = config.content.map(p => p.replaceAll('\\\\', '\\/'))
+    const plugin = config.plugin.map(plug => {
+      return { ...plug,
+        path: plug.path.toString().replaceAll('\\\\', '\\/'),
+        lib: new RegExp(plug.regex.lib.source.replaceAll('\\\\', '\\/')),
+      }
+    })
+    config.plugin = plugin
+  } else {
+    const plugin = config.plugin.map(plug => {
+      return { ...plug,
+        path: plug.path.toString().replaceAll('\\', '/'),
+      }
+    })
+    config.plugin = plugin
+  }
+  return config
 }
