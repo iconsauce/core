@@ -12,9 +12,6 @@
     "prepublishOnly": "npm run test",
     "test": "npm run build && jest"
   },
-  "bin": {
-    "iconsauce": "lib/cli.js"
-  },
   "files": [
     "lib",
     "src"
