@@ -22,18 +22,13 @@
     "@iconsauce/material-icons": "^1.0.3",
     "@iconsauce/mdi-svg": "^1.0.8",
     "chalk": "4.0.0",
-    "lilconfig": "2.0.4",
-    "fast-glob": "^3.2.11"
+    "lilconfig": "2.0.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
-    "@types/debug": "^4.1.5",
     "@types/jest": "^27.4.0",
     "@types/node": "^15.6.1",
-    "@types/react": "17.0.38",
-    "@types/svg2ttf": "^5.0.1",
-    "@types/svgicons2svgfont": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "eslint": "^8.7.0",
