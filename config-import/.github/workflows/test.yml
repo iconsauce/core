@@ -1,0 +1,15 @@
+name: Build & Test
+on:
+  workflow_call:
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest']
+
+    name: Node on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: ./.github/actions/setup-node@main
+      - run: npm run test

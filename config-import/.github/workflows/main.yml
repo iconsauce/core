@@ -3,11 +3,20 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - "test-action"
+      - 'main'
+      - 'test-action'
+  pull_request:
+    branches:
+      - '**'
   release:
     types: [published]
 jobs:
-  build:
+  build_test:
+    name: Build and Test config
+    uses: ./.github/workflows/test.yml
+
+  publish:
+    needs: [build_test]
     runs-on: ubuntu-latest
     permissions:
       contents: read
