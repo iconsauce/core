@@ -1,4 +1,4 @@
-name: Iconsauce Config Workflow
+name: Publish Iconsauce Config
 on:
   workflow_dispatch:
 jobs:
