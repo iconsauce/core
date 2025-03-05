@@ -1,18 +1,10 @@
 name: Iconsauce Config Workflow
 on:
-  push:
-    branches:
-      - 'main'
-      - 'test-action'
-  pull_request:
-    branches:
-      - '**'
   workflow_dispatch:
 jobs:
   build_test:
     name: Build and Test config
     uses: ./.github/workflows/test.yml
-
- # publish:
- #  needs: [build_test]
- #  uses: iconsauce/.github/workflows/publish-npm.yml@main
+  publish:
+    name: Publish npm
+    uses: iconsauce/.github/.github/workflows/publish-npm.yml@main
