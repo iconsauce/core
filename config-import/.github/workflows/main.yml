@@ -17,4 +17,4 @@ jobs:
 
   publish:
     needs: [build_test]
-    uses: iconsauce/.github/workflows/publish-npm
+    uses: iconsauce/.github/workflows/publish-npm@main
