@@ -7,8 +7,8 @@ on:
   pull_request:
     branches:
       - '**'
-      release:
-        types: [published]
+  release:
+    types: [published]
   workflow_dispatch:
 jobs:
   build_test:
