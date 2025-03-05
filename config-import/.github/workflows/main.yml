@@ -7,13 +7,12 @@ on:
   pull_request:
     branches:
       - '**'
-  release:
-    types: [published]
+  workflow_dispatch:
 jobs:
   build_test:
     name: Build and Test config
     uses: ./.github/workflows/test.yml
 
-  publish:
-    needs: [build_test]
-    uses: iconsauce/.github/workflows/publish-npm.yml@main
+ # publish:
+ #  needs: [build_test]
+ #  uses: iconsauce/.github/workflows/publish-npm.yml@main
