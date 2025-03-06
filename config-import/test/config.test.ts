@@ -29,4 +29,7 @@ describe('IconsauceConfig', () => {
 
     config = new IconsauceConfig()
   })
+  test('should loads a esm config when path is not provided', () => {
+    expect(false).toBeTruthy()
+  })
 })
