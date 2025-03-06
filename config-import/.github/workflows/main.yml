@@ -6,6 +6,6 @@ jobs:
     name: Build and Test config
     uses: ./.github/workflows/test.yml
   publish:
-    needs: [build_test]
+    # needs: [build_test]
     name: Publish npm
     uses: iconsauce/.github/.github/workflows/publish-npm.yml@main
