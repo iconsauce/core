@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import { IconsaucePlugin } from '@iconsauce/plugin'
-import { lilconfigSync } from 'lilconfig'
+import { lilconfigSync, OptionsSync } from 'lilconfig'
 import { Config } from './interface/config'
-import { DEFAULT_CONFIG_PATH, ISUNIX, PROJECT_NAME, PROJECT_PATH } from './utils'
+import { ISUNIX, PROJECT_NAME } from './utils'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
 import materialIconsPlugin from '@iconsauce/material-icons'
 import mdiSvgPlugin from '@iconsauce/mdi-svg'
@@ -47,12 +47,17 @@ export class IconsauceConfig implements Config {
 }
 
 const loadConfig = (configPath?: string) : Config => {
-  const options = {
-    searchPlaces: [PROJECT_PATH],
+  const options: OptionsSync = {
     ignoreEmptySearchPlaces: false,
   }
   try {
-    return lilconfigSync(PROJECT_NAME, options).load(configPath ?? DEFAULT_CONFIG_PATH)?.config as Config
+    if (configPath) {
+      return lilconfigSync(PROJECT_NAME, options).load(configPath)?.config as Config
+    }
+    const search = lilconfigSync('iconsauce', options).search()
+    if (!search) throw new Error(chalk.red('Iconsauce configuration file not found'))
+
+    return search.config as Config
   } catch (error) {
     throw new Error(chalk.red(error))
   }
