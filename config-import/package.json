@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "@iconsauce/plugin": "^0.0.1",
-    "@iconsauce/mgg-icons": "^1.0.9",
+    "@iconsauce/mgg-icons": "^1.1.0",
     "@iconsauce/material-icons": "^1.0.3",
     "@iconsauce/mdi-svg": "^1.0.8",
     "chalk": "4.0.0",
