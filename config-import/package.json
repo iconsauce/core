@@ -13,8 +13,7 @@
     "test": "npm run build && jest"
   },
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "dependencies": {
     "@iconsauce/plugin": "^0.0.1",
