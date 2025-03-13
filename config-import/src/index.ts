@@ -1,6 +1,10 @@
 import chalk from 'chalk'
 import { IconsaucePlugin } from '@iconsauce/plugin'
-import { lilconfigSync, OptionsSync } from 'lilconfig'
+import {
+  lilconfig,
+  LilconfigResult,
+  OptionsSync,
+} from 'lilconfig'
 import { Config } from './interface/config'
 import { ISUNIX, PROJECT_NAME } from './utils'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
@@ -12,11 +16,7 @@ const defaultConfig: Config = {
   content: [],
   fontFamily: 'iconsauce',
   fontSize: '24px',
-  plugin: [
-    materialIconsPlugin,
-    mdiSvgPlugin,
-    maggioliSvgIconsPlugin,
-  ],
+  plugin: [materialIconsPlugin, mdiSvgPlugin, maggioliSvgIconsPlugin],
   skipWarnings: true,
   verbose: false,
 }
@@ -30,56 +30,68 @@ export class IconsauceConfig implements Config {
   skipWarnings: boolean
   verbose: boolean
 
-  constructor (configPath?: string, skipWarnings?: boolean, verbose?: boolean) {
-    const config = fixConfigCompatibilityOS(loadConfig(configPath))
-
-    if (config.content.length === 0) {
-      throw new Error(chalk.red('Missing required "content" property'))
-    }
-    this.center = config.center ?? defaultConfig.center
-    this.content = config.content
+  constructor (skipWarnings?: boolean, verbose?: boolean) {
+    this.center = defaultConfig.center
+    this.content = defaultConfig.content
     this.fontFamily = defaultConfig.fontFamily
-    this.fontSize = config.fontSize ?? defaultConfig.fontSize
-    this.plugin = config.plugin ?? defaultConfig.plugin
-    this.skipWarnings = config.verbose ?? skipWarnings ?? defaultConfig.skipWarnings
-    this.verbose = config.verbose ?? verbose ?? defaultConfig.verbose
+    this.fontSize = defaultConfig.fontSize
+    this.plugin = defaultConfig.plugin
+    this.skipWarnings = skipWarnings ?? defaultConfig.skipWarnings
+    this.verbose = verbose ?? defaultConfig.verbose
   }
-}
 
-const loadConfig = (configPath?: string) : Config => {
-  const options: OptionsSync = {
-    ignoreEmptySearchPlaces: false,
+  loadConfig (configPath?: string): Promise<Config> {
+    return this.load(configPath)
+      .then(lilResult => {
+        if (!lilResult) throw new Error(chalk.red('Iconsauce configuration file not found'))
+        // if load config as esm the configuration object is in config.default
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (lilResult.config.default) return lilResult.config.default as Config
+        return lilResult.config as Config
+      })
+      .then(c => {
+        if (c.content.length === 0) {
+          throw new Error(chalk.red('Missing required "content" property'))
+        }
+        const config = this.fixConfigCompatibilityOS(c)
+        this.center = config.center ?? this.center
+        this.content = config.content
+        this.fontFamily = config.fontFamily ?? defaultConfig.fontFamily
+        this.fontSize = config.fontSize ?? this.fontSize
+        this.plugin = config.plugin ?? this.plugin
+        this.skipWarnings = config.skipWarnings ?? this.skipWarnings
+        this.verbose = config.verbose ?? this.verbose
+        return this
+      })
   }
-  try {
-    if (configPath) {
-      return lilconfigSync(PROJECT_NAME, options).load(configPath)?.config as Config
+
+  private load (configPath?: string): Promise<LilconfigResult> {
+    const options: OptionsSync = {
+      ignoreEmptySearchPlaces: false,
     }
-    const search = lilconfigSync('iconsauce', options).search()
-    if (!search) throw new Error(chalk.red('Iconsauce configuration file not found'))
-
-    return search.config as Config
-  } catch (error) {
-    throw new Error(chalk.red(error))
+    if (configPath) {
+      return lilconfig(PROJECT_NAME, options).load(configPath)
+    }
+    return lilconfig('iconsauce', options).search()
   }
-}
 
-const fixConfigCompatibilityOS = (config: Config): Config => {
-  if (ISUNIX) {
-    config.content = config.content.map(p => p.replaceAll('\\\\', '\\/'))
-    const plugin = config.plugin.map(plug => {
-      return { ...plug,
-        path: plug.path.toString().replaceAll('\\\\', '\\/'),
-        lib: new RegExp(plug.regex.lib.source.replaceAll('\\\\', '\\/')),
-      }
-    })
-    config.plugin = plugin
-  } else {
-    const plugin = config.plugin.map(plug => {
-      return { ...plug,
-        path: plug.path.toString().replaceAll('\\', '/'),
-      }
-    })
-    config.plugin = plugin
+  private fixConfigCompatibilityOS (config: Config): Config {
+    if (ISUNIX) {
+      config.content = config.content.map(p => p.replaceAll('\\\\', '\\/'))
+      const plugin = config.plugin.map(plug => {
+        return {
+          ...plug,
+          path: plug.path.toString().replaceAll('\\\\', '\\/'),
+          lib: new RegExp(plug.regex.lib.source.replaceAll('\\\\', '\\/')),
+        }
+      })
+      config.plugin = plugin
+    } else {
+      const plugin = config.plugin.map(plug => {
+        return { ...plug, path: plug.path.toString().replaceAll('\\', '/') }
+      })
+      config.plugin = plugin
+    }
+    return config
   }
-  return config
 }

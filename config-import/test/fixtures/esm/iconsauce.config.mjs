@@ -1,10 +1,14 @@
+import mi from '@iconsauce/material-icons'
+import mdi from '@iconsauce/mdi-svg'
+import mgg from '@iconsauce/mgg-icons'
+
 export default {
   content: [
     './src/**/*.{tsx,ts}',
   ],
   plugin: [
-    require('@iconsauce/material-icons'),
-    require('@iconsauce/mdi-svg'),
-    require('@iconsauce/mgg-icons'),
+    mi,
+    mdi,
+    mgg,
   ],
 }

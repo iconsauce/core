@@ -19,4 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: iconsauce/.github/.github/actions/setup-node@main
-      - run: npm run test
+      - name: Build
+        run: npm run build
+      - name: Run Tests
+        run: npm run test

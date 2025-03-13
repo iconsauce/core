@@ -1,6 +1,6 @@
 {
   "name": "@iconsauce/config",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Includes only the SVG icons matched in your code and generates a CSS icon font set.",
   "main": "lib/index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "dev": "tsc --watch",
     "lib": "cp -r ./build/src ./lib",
     "lint": "eslint --ignore-path .eslintignore",
-    "prepublishOnly": "npm run test",
-    "test": "npm run build && jest"
+    "prepublishOnly": "npm run build && npm run test",
+    "test": "jest"
   },
   "files": [
     "lib"
