@@ -26,7 +26,7 @@
     "fonteditor-core": "2.6.3",
     "fs-extra": "11.3.0",
     "handlebars": "4.7.9",
-    "svgicons2svgfont": "15.0.1"
+    "svgicons2svgfont": "16.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "7.29.0",
@@ -46,7 +46,7 @@
     "prettier": "3.4.2",
     "ts-jest": "29.4.9",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.59.0"
+    "typescript-eslint": "8.60.0"
   },
   "keywords": [
     "build",
