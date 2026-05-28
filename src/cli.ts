@@ -17,6 +17,7 @@ const args = arg({
   '--output-dictionary': String,
   '--output-svg': String,
   '--output-dump-svg': String,
+  '--output-dump-dictionary': String,
   '--skip-warnings': Boolean,
   '--verbose': Boolean,
   '-c': '--config',
@@ -24,6 +25,7 @@ const args = arg({
   '-od': '--output-dictionary',
   '-os': '--output-svg',
   '-ods': '--output-dump-svg',
+  '-odd': '--output-dump-dictionary',
   '-s': '--skip-warnings',
   '-v': '--verbose',
 })
@@ -51,6 +53,11 @@ loadConfig(configPath).then(config =>
 
     if (args['--output-dump-svg'] !== undefined) {
       exportSVG(data.dictionary, args['--output-dump-svg'], config.verbose)
+        .catch(console.error)
+    }
+
+    if (args['--output-dump-dictionary'] !== undefined) {
+      exportMap(data.dictionary, args['--output-dump-dictionary'], config.verbose)
         .catch(console.error)
     }
 

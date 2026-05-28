@@ -4,7 +4,7 @@
   "description": "A simple project to run iconsuce ad test it runtime",
   "main": "index.js",
   "scripts": {
-    "build": "node ../../build/src/cli.js --verbose --config ./iconsauce.config.js --output-css ./export/icons.css --output-svg ./export/svg --output-dump-svg ./export/dump --output-dictionary ./export/dictionary.json"
+    "build": "node ../../build/src/cli.js --verbose --config ./iconsauce.config.js --output-css ./export/icons.css --output-svg ./export/svg --output-dump-svg ./export/dump --output-dictionary ./export/dictionary.json --output-dump-dictionary ./export/dump-dictionary.json"
   },
   "dependencies": {
     "@iconsauce/config": "0.5.1",
