@@ -28,6 +28,10 @@
     "handlebars": "4.7.9",
     "svgicons2svgfont": "16.0.0"
   },
+  "overrides": {
+    "glob": "13.0.6",
+    "test-exclude": "8.0.0"
+  },
   "devDependencies": {
     "@babel/preset-env": "7.29.0",
     "@babel/preset-typescript": "7.28.5",
