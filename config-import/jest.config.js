@@ -1,6 +1,18 @@
 /** @type { import('jest').Config } */
 module.exports = {
   collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/interface/**',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 95,
+      functions: 95,
+      lines: 95,
+      statements: 95,
+    },
+  },
   testEnvironment: 'node',
   transform: {
     '^.+\\.ts$': 'babel-jest',

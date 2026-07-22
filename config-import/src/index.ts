@@ -53,12 +53,15 @@ export class IconsauceConfig implements Config {
         if (c.content.length === 0) {
           throw new Error(chalk.red('Missing required "content" property'))
         }
+
+        c.plugin = c.plugin ?? this.plugin
         const config = this.fixConfigCompatibilityOS(c)
+
         this.center = config.center ?? this.center
         this.content = config.content
         this.fontFamily = config.fontFamily ?? defaultConfig.fontFamily
         this.fontSize = config.fontSize ?? this.fontSize
-        this.plugin = config.plugin ?? this.plugin
+        this.plugin = config.plugin
         this.skipWarnings = config.skipWarnings ?? this.skipWarnings
         this.verbose = config.verbose ?? this.verbose
         return this
