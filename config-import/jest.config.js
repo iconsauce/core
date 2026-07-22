@@ -1,12 +1,14 @@
-/** @type { import('ts-jest/dist/types').InitialOptionsTsJest } */
+/** @type { import('jest').Config } */
 module.exports = {
-  preset: 'ts-jest',
   collectCoverage: true,
   testEnvironment: 'node',
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.ts$': 'babel-jest',
     '^.+\\.mjs?$': 'babel-jest',
   },
+  transformIgnorePatterns: [
+    '/node_modules/(?!@iconsauce/)',
+  ],
   testRegex: [
     '([a-z/.]{1,}).test.ts$',
   ],
