@@ -12,7 +12,7 @@
     "@iconsauce/mdi-svg": "1.0.8",
     "@iconsauce/mgg-icons": "1.2.0",
     "@iconsauce/plugin": "0.0.2",
-    "postcss": "8.5.10",
+    "postcss": "8.5.18",
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-iconsauce": "1.4.0",
     "postcss-import": "16.0.0",
