@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["esnext"],
+    "module": "node16",
+    "moduleResolution": "node16",
+    "outDir": "build",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es2017",
+    "types": ["node", "jest"],
+  },
+  "include": [
+    "src",
+    "test"
+  ],
+  "exclude": [
+    "lib",
+    "node_modules"
+  ]
+}
