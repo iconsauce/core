@@ -1,2 +1,5 @@
 export { build } from './build'
 export { buildCSS } from './css'
+export { IconsauceConfig } from './config'
+export { type Config } from './config/interface/config'
+export { type IconsaucePlugin } from '@iconsauce/plugin'

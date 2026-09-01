@@ -1,9 +1,9 @@
-import { IconsauceConfig } from '../src/index'
-import { Config } from '../src/interface/config'
+import { IconsauceConfig } from '../src/config'
+import { type Config } from '../src/config/interface/config'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-import { configTest } from './fixtures/config'
+import { configTest } from './fixtures/config-loader/config'
 
 describe('IconsauceConfig', () => {
   let config: Config
@@ -19,17 +19,17 @@ describe('IconsauceConfig', () => {
 
   })
   test('should loads a config when path setted', async () => {
-    config = await new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/iconsauce.config.js'))
+    config = await new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/config-loader/iconsauce.config.js'))
   })
   test('should loads a config when path is not provided', async () => {
     const spyCwd = jest.spyOn(process, 'cwd')
-    spyCwd.mockReturnValue(path.resolve('test/fixtures'))
+    spyCwd.mockReturnValue(path.resolve('test/fixtures/config-loader'))
 
     config = await new IconsauceConfig().loadConfig()
   })
   test('should loads a esm config when path is not provided', async () => {
     const spyCwd = jest.spyOn(process, 'cwd')
-    spyCwd.mockReturnValue(path.resolve('test/fixtures/esm'))
+    spyCwd.mockReturnValue(path.resolve('test/fixtures/config-loader/esm'))
     config = await new IconsauceConfig().loadConfig()
   })
 })
@@ -45,14 +45,14 @@ describe('IconsauceConfig errors', () => {
       .rejects.toThrow('Iconsauce configuration file not found')
   })
   test('should throw when "content" property is empty', async () => {
-    await expect(new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/empty-content/iconsauce.config.js')))
+    await expect(new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/config-loader/empty-content/iconsauce.config.js')))
       .rejects.toThrow('Missing required "content" property')
   })
 })
 
 describe('IconsauceConfig overrides', () => {
   test('should override all defaults with values from config file', async () => {
-    const config = await new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/full/iconsauce.config.js'))
+    const config = await new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/config-loader/full/iconsauce.config.js'))
     expect(config.center).toBe(true)
     expect(config.content).toEqual(['./lib/**/*.{tsx,ts}'])
     expect(config.fontFamily).toBe('custom-font')
@@ -67,7 +67,7 @@ describe('IconsauceConfig overrides', () => {
     expect(config.verbose).toBe(true)
   })
   test('should fall back to default plugins when plugin property is missing', async () => {
-    const config = await new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/empty-plugin/iconsauce.config.js'))
+    const config = await new IconsauceConfig().loadConfig(path.resolve(__dirname, './fixtures/config-loader/empty-plugin/iconsauce.config.js'))
     expect(config.plugin.length).toEqual(configTest.plugin.length)
     expect(config.content).toEqual(['./src/**/*.{tsx,ts}'])
   })

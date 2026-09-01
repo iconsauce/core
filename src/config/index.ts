@@ -1,11 +1,11 @@
 import chalk from 'chalk'
-import { IconsaucePlugin } from '@iconsauce/plugin'
+import { type IconsaucePlugin } from '@iconsauce/plugin'
 import {
   lilconfig,
-  LilconfigResult,
-  OptionsSync,
+  type LilconfigResult,
+  type OptionsSync,
 } from 'lilconfig'
-import { Config } from './interface/config'
+import { type Config } from './interface/config'
 import { ISUNIX, PROJECT_NAME } from './utils'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'
 import materialIconsPlugin from '@iconsauce/material-icons'

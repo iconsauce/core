@@ -1,7 +1,7 @@
 import fg from 'fast-glob'
 import chalk from 'chalk'
 import { type IconsaucePlugin } from '@iconsauce/plugin'
-import { type Config } from '@iconsauce/config/lib/interface/config'
+import { type Config } from '../config/interface/config'
 import { type PathLike } from 'fs'
 
 const dictionary = (plugin: IconsaucePlugin, icons: PathLike[]) => {

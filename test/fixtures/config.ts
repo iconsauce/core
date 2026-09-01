@@ -1,5 +1,5 @@
-import { type Config } from '@iconsauce/config/lib/interface/config'
-import { ISUNIX } from '@iconsauce/config/lib/utils'
+import { type Config } from '../../src/config/interface/config'
+import { ISUNIX } from '../../src/config/utils'
 import materialIconsPlugin from '@iconsauce/material-icons'
 import mdiSvgPlugin from '@iconsauce/mdi-svg'
 import maggioliSvgIconsPlugin from '@iconsauce/mgg-icons'

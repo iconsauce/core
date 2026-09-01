@@ -1,4 +1,4 @@
-import { IconsaucePlugin } from '@iconsauce/plugin'
+import { type IconsaucePlugin } from '@iconsauce/plugin'
 
 export interface Config {
   center: boolean

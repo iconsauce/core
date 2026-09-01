@@ -3,11 +3,11 @@ import arg from 'arg'
 import chalk from 'chalk'
 import { type PathLike } from 'fs'
 import { writeFile } from 'fs/promises'
-import { IconsauceConfig } from '@iconsauce/config'
+import { IconsauceConfig } from './config'
 import { build } from './build'
 import { buildCSS } from './index'
 import { name, version } from '../package.json'
-import { type Config } from '@iconsauce/config/lib/interface/config'
+import { type Config } from './config/interface/config'
 import { checkFilePath, exportMap, exportSVG } from './lib/utils'
 let configPath = undefined
 
