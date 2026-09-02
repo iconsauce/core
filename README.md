@@ -53,6 +53,10 @@ export default MyComponent
 
 ## Config
 
+Since v2.0.0 the configuration loader previously published as `@iconsauce/config`
+is part of this package: `IconsauceConfig` and the `Config` type are exported
+directly from `@iconsauce/core`.
+
 Place config file in the root of your node project:
 
 ```js
@@ -64,9 +68,9 @@ module.exports = {
     './layouts/**/*.{js}',
   ],
   fontSize: '24px',
-  plugin: {
-    require('@iconsauce/material-design-icons-updated'),
-  }
+  plugin: [
+    require('@iconsauce/material-icons'),
+  ],
 }
 ```
 

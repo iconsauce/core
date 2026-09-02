@@ -5,7 +5,7 @@ import path from 'path'
 // import svg2ttf from 'svg2ttf'
 import { Font } from 'fonteditor-core'
 import { SVGIcons2SVGFontStream } from 'svgicons2svgfont'
-import { type Config } from '@iconsauce/config/lib/interface/config'
+import { type Config } from '../config/interface/config'
 import { PROJECT_NAME, TEMP_PATH } from './utils'
 
 interface Glyph extends ReadStream {

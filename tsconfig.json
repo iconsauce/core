@@ -1,17 +1,19 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "jsx": "react",
+    "isolatedModules": true,
     "lib": ["esnext", "DOM"],
     "types": ["jest"],
-    "module": "commonjs",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "outDir": "build",
+    "rootDir": ".",
     "removeComments": true,
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "es2017"
+    "target": "es2022"
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["lib", "node_modules"]

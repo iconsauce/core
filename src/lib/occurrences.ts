@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises'
 import chalk from 'chalk'
-import { type Config } from '@iconsauce/config/lib/interface/config'
+import { type Config } from '../config/interface/config'
 import { type PathLike } from 'fs'
 
 const occurrences = async (config: Config, files: PathLike[]): Promise<{ occurrences: string[], map: Map<string, PathLike> }> => {

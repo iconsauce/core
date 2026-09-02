@@ -7,16 +7,9 @@
     "build": "node ../../build/src/cli.js --verbose --config ./iconsauce.config.js --output-css ./export/icons.css --output-svg ./export/svg --output-dump-svg ./export/dump --output-dictionary ./export/dictionary.json --output-dump-dictionary ./export/dump-dictionary.json"
   },
   "dependencies": {
-    "@iconsauce/config": "0.5.1",
     "@iconsauce/material-icons": "1.0.3",
     "@iconsauce/mdi-svg": "1.0.8",
-    "@iconsauce/mgg-icons": "1.2.0",
-    "@iconsauce/plugin": "0.0.2",
-    "postcss": "8.5.23",
-    "postcss-flexbugs-fixes": "5.0.2",
-    "postcss-iconsauce": "1.4.0",
-    "postcss-import": "16.0.0",
-    "postcss-loader": "7.3.4"
+    "@iconsauce/mgg-icons": "1.2.0"
   },
   "author": "Vittorio Vittori",
   "license": "ISC"
