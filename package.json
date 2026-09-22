@@ -30,9 +30,9 @@
     "lib"
   ],
   "dependencies": {
+    "@iconsauce/material-icons": "^1.0.3",
     "@iconsauce/mdi-svg": "^1.0.8",
     "@iconsauce/mgg-icons": "^1.2.0",
-    "@iconsauce/material-icons": "^1.0.3",
     "@iconsauce/plugin": "^0.1.0",
     "arg": "5.0.2",
     "chalk": "4.1.2",
@@ -50,19 +50,11 @@
   "devDependencies": {
     "@babel/preset-env": "7.29.0",
     "@babel/preset-typescript": "7.28.5",
-    "@eslint/eslintrc": "3.3.4",
-    "@eslint/js": "9.39.3",
-    "@maggioli-design-system/svg-icons": "3.11.7",
-    "@material-icons/svg": "1.0.33",
-    "@mdi/svg": "7.3.67",
-    "@types/debug": "4.1.12",
     "@types/fs-extra": "11.0.4",
     "@types/jest": "30.0.0",
     "@types/node": "25.3.3",
     "eslint": "9.39.3",
     "jest": "30.3.0",
-    "material-design-icons-updated": "7.0.0",
-    "prettier": "3.4.2",
     "ts-jest": "29.4.9",
     "typescript": "6.0.3",
     "typescript-eslint": "8.60.0"
