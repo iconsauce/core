@@ -5,7 +5,7 @@
     {
       "description": "Block major",
       "matchUpdateTypes": ["major"],
-      "enables": "false",
+      "enabled": false,
       "matchPackageNames": ["/^typescript/", "/^chalk/", "/^eslint/"]
     }
   ]
