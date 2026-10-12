@@ -40,7 +40,9 @@ The push of the `chore(release)` commit is skipped by the release workflow, so n
   default workflow token cannot be used: the ruleset requires the status checks on every push to
   `main`, a commit pushed directly can never carry them and `github-actions[bot]` cannot bypass
   rules. The token also makes the GitHub release start `main.yml`, which events created by the
-  workflow token never do. Rotate it before it expires.
+  workflow token never do. The `iconsauce` organization rejects fine-grained tokens with a lifetime
+  longer than 366 days, so create it with at most one year of validity and rotate it before it
+  expires.
 - npm trusted publishing configured on npmjs.com for this repository and the workflow `main.yml`.
 
 ## Updating the release toolchain
