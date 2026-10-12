@@ -1,0 +1,120 @@
+# Release pipeline on main, modelled on magma-design-system/magma.
+# semantic-release detects the next version from the conventional commits,
+# bumps package.json + package-lock.json, pushes ONE chore(release) commit,
+# tags it and creates the GitHub release. The last step then dispatches
+# main.yml on the new tag, which runs the tests again and publishes to npm
+# (trusted publishing / OIDC).
+#
+# Nothing release-related lives in the repo: the toolchain is installed with
+# `npm install --no-save` and the semantic-release config is written to a temp
+# file at runtime, so the release commit only carries the version bump.
+#
+# Everything runs with the default GITHUB_TOKEN. Events it produces (the push,
+# the tag, the GitHub release) never trigger other workflows, so main.yml is
+# started explicitly with `gh workflow run`: workflow_dispatch is the one
+# documented exception to that rule. A release created by hand from the GitHub
+# UI still publishes through the `release` trigger of main.yml, as before.
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify
+    # chore(release) pushes come from the release job itself: their version is
+    # already tagged, so re-running would only be a wasted no-op
+    if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    uses: ./.github/workflows/test.yml
+
+  release:
+    name: Release
+    if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
+    runs-on: ubuntu-latest
+    needs: verify
+    permissions:
+      contents: write # to push the release commit and tag, and create the GitHub release
+      issues: write # to comment on released issues
+      pull-requests: write # to comment on released pull requests
+      actions: write # to dispatch main.yml (npm publish) on the new tag
+    env:
+      SEMANTIC_RELEASE_VERSION: 25.0.9
+      SR_GIT_VERSION: 11.0.1
+      # v10 of the preset needs a newer changelog writer than release-notes-generator 14 bundles
+      CONVENTIONAL_CHANGELOG_VERSION: 9.3.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          # semantic-release authenticates its own pushes with the GITHUB_TOKEN below
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Install semantic-release (local, no-save)
+        run: |
+          npm install --no-save \
+            semantic-release@${SEMANTIC_RELEASE_VERSION} \
+            @semantic-release/git@${SR_GIT_VERSION} \
+            conventional-changelog-conventionalcommits@${CONVENTIONAL_CHANGELOG_VERSION}
+      - name: Write semantic-release config
+        run: |
+          cat > "${RUNNER_TEMP}/semantic-release.config.cjs" <<'EOF'
+          module.exports = {
+            branches: ['main'],
+            plugins: [
+              ['@semantic-release/commit-analyzer', { preset: 'conventionalcommits' }],
+              ['@semantic-release/release-notes-generator', { preset: 'conventionalcommits' }],
+              // only bumps package.json and package-lock.json: npm publish is done by main.yml
+              ['@semantic-release/npm', { npmPublish: false }],
+              [
+                '@semantic-release/git',
+                {
+                  assets: ['package.json', 'package-lock.json'],
+                  // the push of this commit is skipped by the chore(release) guard on the jobs above
+                  message: 'chore(release): ${nextRelease.version}',
+                },
+              ],
+              '@semantic-release/github',
+            ],
+          };
+          EOF
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+        run: npx --no-install semantic-release -e "${RUNNER_TEMP}/semantic-release.config.cjs"
+      - name: Publish to npm (dispatch main.yml on the new tag)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRIGGER_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          # semantic-release leaves HEAD on the chore(release) commit it pushed,
+          # with the new tag on it; without a release HEAD is still the pushed commit
+          if [ "$(git rev-parse HEAD)" = "$TRIGGER_SHA" ]; then
+            echo "no release created, nothing to publish"
+            exit 0
+          fi
+          TAG=$(git describe --exact-match --tags HEAD)
+          echo "dispatching main.yml on ${TAG}"
+          gh workflow run main.yml --ref "$TAG"
