@@ -1,19 +1,22 @@
 # Release pipeline on main, modelled on magma-design-system/magma.
 # semantic-release detects the next version from the conventional commits,
 # bumps package.json + package-lock.json, pushes ONE chore(release) commit,
-# tags it and creates the GitHub release. The last step then dispatches
-# main.yml on the new tag, which runs the tests again and publishes to npm
-# (trusted publishing / OIDC).
+# tags it and creates the GitHub release. That release triggers main.yml,
+# which runs the tests again and publishes to npm (trusted publishing / OIDC),
+# exactly like a release created by hand from the GitHub UI.
 #
 # Nothing release-related lives in the repo: the toolchain is installed with
 # `npm install --no-save` and the semantic-release config is written to a temp
 # file at runtime, so the release commit only carries the version bump.
 #
-# Everything runs with the default GITHUB_TOKEN. Events it produces (the push,
-# the tag, the GitHub release) never trigger other workflows, so main.yml is
-# started explicitly with `gh workflow run`: workflow_dispatch is the one
-# documented exception to that rule. A release created by hand from the GitHub
-# UI still publishes through the `release` trigger of main.yml, as before.
+# semantic-release runs with RELEASE_PUSH_TOKEN, a fine-grained PAT (Contents:
+# read and write on this repo) of a user in the bypass list of the `main`
+# ruleset. Two reasons the default GITHUB_TOKEN cannot do it:
+#   - the ruleset requires the status checks on every push to main, a commit
+#     pushed directly can never carry them, and github-actions[bot] cannot be
+#     added to the bypass list;
+#   - events produced by GITHUB_TOKEN never trigger other workflows, so the
+#     release would not start main.yml.
 name: release
 
 on:
@@ -41,11 +44,8 @@ jobs:
     if: ${{ !startsWith(github.event.head_commit.message, 'chore(release):') }}
     runs-on: ubuntu-latest
     needs: verify
-    permissions:
-      contents: write # to push the release commit and tag, and create the GitHub release
-      issues: write # to comment on released issues
-      pull-requests: write # to comment on released pull requests
-      actions: write # to dispatch main.yml (npm publish) on the new tag
+    # no extra permissions: semantic-release only uses RELEASE_PUSH_TOKEN, the
+    # workflow token just checks out the repo
     env:
       SEMANTIC_RELEASE_VERSION: 25.0.9
       SR_GIT_VERSION: 11.0.1
@@ -56,7 +56,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-          # semantic-release authenticates its own pushes with the GITHUB_TOKEN below
+          # otherwise the checkout's GITHUB_TOKEN overrides RELEASE_PUSH_TOKEN on git push
           persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -91,30 +91,17 @@ jobs:
                   message: 'chore(release): ${nextRelease.version}',
                 },
               ],
-              '@semantic-release/github',
+              // release only: no comments on issues/PRs, no issue on failure,
+              // so the token needs nothing beyond Contents
+              ['@semantic-release/github', { successComment: false, failComment: false, failTitle: false }],
             ],
           };
           EOF
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}
           GIT_AUTHOR_NAME: github-actions[bot]
           GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
         run: npx --no-install semantic-release -e "${RUNNER_TEMP}/semantic-release.config.cjs"
-      - name: Publish to npm (dispatch main.yml on the new tag)
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TRIGGER_SHA: ${{ github.sha }}
-        run: |
-          set -euo pipefail
-          # semantic-release leaves HEAD on the chore(release) commit it pushed,
-          # with the new tag on it; without a release HEAD is still the pushed commit
-          if [ "$(git rev-parse HEAD)" = "$TRIGGER_SHA" ]; then
-            echo "no release created, nothing to publish"
-            exit 0
-          fi
-          TAG=$(git describe --exact-match --tags HEAD)
-          echo "dispatching main.yml on ${TAG}"
-          gh workflow run main.yml --ref "$TAG"
