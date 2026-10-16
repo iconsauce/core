@@ -1,6 +1,6 @@
 {
   "name": "@iconsauce/core",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Includes only the SVG icons matched in your code and generates a CSS icon font set.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
